@@ -1,37 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Font Optimizer
 
-## Getting Started
+```text
+  _____           _   ____                        _     
+ |  ___|__  _ __ | |_/ ___|  __ _ _   _  __ _ ___| |__  
+ | |_ / _ \| '_ \| __\___ \ / _` | | | |/ _` / __| '_ \ 
+ |  _| (_) | | | | |_ ___) | (_| | |_| | (_| \__ \ | | |
+ |_|  \___/|_| |_|\__|____/ \__, |\__,_|\__,_|___/_| |_|
+                               |_|
+```
 
-First, run the development server:
+A browser-based font optimizer for web developers.
+
+Upload TTF or OTF fonts, subset them to the characters you need, and encode the result as WOFF2. Everything happens locally in the browser — font files are never uploaded to a server.
+
+## How it works
+
+```text
+TTF / OTF
+    │
+    ▼
+HarfBuzz
+    │
+    │  Glyph subsetting
+    ▼
+SFNT / TTF
+    │
+    ▼
+Google WOFF2
+    │
+    │  Compression
+    ▼
+WOFF2
+```
+
+The optimizer uses two WebAssembly components:
+
+- **HarfBuzz** — subsets the font and produces a valid SFNT font containing only the requested glyphs.
+- **Google WOFF2** — encodes the resulting SFNT font as WOFF2.
+
+## Features
+
+- TTF and OTF input
+- Font subsetting
+- WOFF2 output
+- Multiple fonts can be processed
+- Original and optimized file sizes
+- Percentage size reduction
+- Client-side processing
+- No file uploads
+- WebAssembly-based font processing
+
+## Example
+
+A font can go from:
+
+```text
+64 KB → 14 KB
+```
+
+while retaining only the required characters.
+
+## Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## WebAssembly
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project uses two independently compiled WebAssembly components.
 
-## Learn More
+### HarfBuzz
 
-To learn more about Next.js, take a look at the following resources:
+HarfBuzz handles font subsetting and produces the resulting SFNT font.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Google WOFF2
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Google's WOFF2 library takes the subsetted SFNT and produces the final WOFF2 file.
 
-## Deploy on Vercel
+The TypeScript layer provides small wrappers around both native APIs.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Privacy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# font-squash" 
+Font files are processed entirely in the browser.
+
+Fonts are never uploaded to a server, making the tool suitable for optimizing commercial or proprietary fonts.
+
+## License
+
+This project uses third-party software including:
+
+- [HarfBuzz](https://github.com/harfbuzz/harfbuzz)
+- [WOFF2](https://github.com/google/woff2)
+
+See the respective projects for their licenses and attribution requirements.
