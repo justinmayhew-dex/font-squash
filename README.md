@@ -1,10 +1,13 @@
-````markdown
+# Font Optimizer
+
+```text
   _____           _   ____                        _     
  |  ___|__  _ __ | |_/ ___|  __ _ _   _  __ _ ___| |__  
  | |_ / _ \| '_ \| __\___ \ / _` | | | |/ _` / __| '_ \ 
  |  _| (_) | | | | |_ ___) | (_| | |_| | (_| \__ \ | | |
  |_|  \___/|_| |_|\__|____/ \__, |\__,_|\__,_|___/_| |_|
-                               |_|                      
+                               |_|
+```
 
 A browser-based font optimizer for web developers.
 
@@ -12,46 +15,44 @@ Upload TTF or OTF fonts, subset them to the characters you need, and encode the 
 
 ## How it works
 
-The optimizer uses two WebAssembly components:
-
-1. **HarfBuzz** — subsets the font and produces a valid SFNT font containing only the requested glyphs.
-2. **Google WOFF2** — encodes the resulting SFNT font as WOFF2.
-
 ```text
 TTF / OTF
-   │
-   ▼
+    │
+    ▼
 HarfBuzz
-   │
-   │  Glyph subsetting
-   ▼
+    │
+    │  Glyph subsetting
+    ▼
 SFNT / TTF
-   │
-   ▼
+    │
+    ▼
 Google WOFF2
-   │
-   │  Compression
-   ▼
+    │
+    │  Compression
+    ▼
 WOFF2
-````
+```
 
-The JavaScript/TypeScript layer provides a small API around both WASM modules.
+The optimizer uses two WebAssembly components:
+
+- **HarfBuzz** — subsets the font and produces a valid SFNT font containing only the requested glyphs.
+- **Google WOFF2** — encodes the resulting SFNT font as WOFF2.
 
 ## Features
 
-* TTF and OTF input
-* Font subsetting
-* WOFF2 output
-* Multiple fonts can be processed
-* Shows original and optimized file sizes
-* Shows percentage size reduction
-* Client-side processing
-* No file uploads
-* Uses the actual HarfBuzz subsetter rather than manually modifying font tables
+- TTF and OTF input
+- Font subsetting
+- WOFF2 output
+- Multiple fonts can be processed
+- Original and optimized file sizes
+- Percentage size reduction
+- Client-side processing
+- No file uploads
+- WebAssembly-based font processing
 
 ## Example
 
-A font might go from:
+A font can go from:
 
 ```text
 64 KB → 14 KB
@@ -60,8 +61,6 @@ A font might go from:
 while retaining only the required characters.
 
 ## Development
-
-This project uses Next.js and TypeScript.
 
 Install dependencies:
 
@@ -75,76 +74,33 @@ Start the development server:
 npm run dev
 ```
 
-Then open:
-
-```text
-http://localhost:3000
-```
+Then open `http://localhost:3000`.
 
 ## WebAssembly
 
-The project includes two independently compiled WebAssembly components.
+This project uses two independently compiled WebAssembly components.
 
 ### HarfBuzz
 
-HarfBuzz is used for font subsetting.
-
-The wrapper exposes:
-
-```text
-_hb_subset_font
-_hb_subset_free
-```
-
-The TypeScript wrapper handles copying font data into WASM memory and copying the resulting subset back into JavaScript.
+HarfBuzz handles font subsetting and produces the resulting SFNT font.
 
 ### Google WOFF2
 
-Google's WOFF2 library is used to encode the subsetted SFNT font.
+Google's WOFF2 library takes the subsetted SFNT and produces the final WOFF2 file.
 
-The wrapper exposes:
-
-```text
-_woff2_compress
-_woff2_free
-```
-
-The output of HarfBuzz is passed directly to the WOFF2 encoder.
-
-## Why WASM?
-
-Font processing libraries are traditionally designed for native or Node.js environments. Running the actual font-processing libraries as WebAssembly avoids trying to force Node-specific packages into a browser environment.
-
-The browser application controls the interface while the font processing itself is performed by the native libraries compiled to WASM.
+The TypeScript layer provides small wrappers around both native APIs.
 
 ## Privacy
 
 Font files are processed entirely in the browser.
 
-There is no server-side font processing or font upload required.
-
-This means the tool can be used with commercial or proprietary fonts without sending the font file to a remote service.
+Fonts are never uploaded to a server, making the tool suitable for optimizing commercial or proprietary fonts.
 
 ## License
 
-This project contains or uses third-party software, including:
+This project uses third-party software including:
 
-* [HarfBuzz](https://github.com/harfbuzz/harfbuzz)
-* [WOFF2](https://github.com/google/woff2)
+- [HarfBuzz](https://github.com/harfbuzz/harfbuzz)
+- [WOFF2](https://github.com/google/woff2)
 
-Refer to the respective projects for their licenses and attribution requirements.
-
-## Status
-
-Early-stage project.
-
-The current implementation focuses on the core pipeline:
-
-```text
-font → subset → WOFF2
-```
-
-Additional subsetting controls and optimization options can be added on top of this foundation.
-
-```
-```
+See the respective projects for their licenses and attribution requirements.
