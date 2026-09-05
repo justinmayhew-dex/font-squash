@@ -11,6 +11,8 @@
 
 A browser-based font optimizer for web developers.
 
+![Font Optimizer](docs/screenshot.jpeg)
+
 Upload TTF or OTF fonts, subset them to the characters you need, and encode the result as WOFF2. Everything happens locally in the browser — font files are never uploaded to a server.
 
 ## How it works
