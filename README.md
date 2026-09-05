@@ -1,17 +1,8 @@
-# Font Optimizer
-
-```text
-  _____           _   ____                        _     
- |  ___|__  _ __ | |_/ ___|  __ _ _   _  __ _ ___| |__  
- | |_ / _ \| '_ \| __\___ \ / _` | | | |/ _` / __| '_ \ 
- |  _| (_) | | | | |_ ___) | (_| | |_| | (_| \__ \ | | |
- |_|  \___/|_| |_|\__|____/ \__, |\__,_|\__,_|___/_| |_|
-                               |_|
-```
-
-A browser-based font optimizer for web developers.
+# Font Squash
 
 ![Font Optimizer](docs/screenshot.jpeg)
+
+A browser-based font optimizer for web developers.
 
 Upload TTF or OTF fonts, subset them to the characters you need, and encode the result as WOFF2. Everything happens locally in the browser — font files are never uploaded to a server.
 
